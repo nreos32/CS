@@ -14,7 +14,7 @@ const app = http.createServer((req, res) => {
             res.end(webpage)}
         
         else if (req.url === '/login') {
-            let webpage = fs.readFileSync("login.html");
+            let webpage = fs.readFileSync("login.html"); 
             res.end(webpage)}
         
         else if (req.url === '/register') {
@@ -22,11 +22,11 @@ const app = http.createServer((req, res) => {
             res.end(webpage)}
 
         else {
-            res.end("Page Not Found")
+            res.end("Page Not Found") 
         }
     });
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
+    console.log(`http://localhost:${PORT}`); 
 });
