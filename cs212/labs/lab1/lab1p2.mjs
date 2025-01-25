@@ -5,28 +5,36 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const app = http.createServer((req, res) => {
+    try {
         if (req.url === '/') {
-            let webpage = fs.readFileSync("homepage.html");
-            res.end(webpage)
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            let webpage = fs.readFileSync(path.join(process.cwd(), "pages", "homepage.html"));
+            res.end(webpage);
         }
         else if (req.url === '/about') {
-            let webpage = fs.readFileSync("aboutme.html");
-            res.end(webpage)}
-        
-        else if (req.url === '/login') {
-            let webpage = fs.readFileSync("login.html"); 
-            res.end(webpage)}
-        
-        else if (req.url === '/register') {
-            let webpage = fs.readFileSync("register.html");
-            res.end(webpage)}
-
-        else {
-            res.end("Page Not Found") 
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            let webpage = fs.readFileSync(path.join(process.cwd(), "pages", "aboutme.html"));
+            res.end(webpage);
         }
-    });
+        else if (req.url === '/contact') {
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            let webpage = fs.readFileSync(path.join(process.cwd(), "pages", "contact.html"));
+            res.end(webpage);
+        }
+        else {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            let webpage = fs.readFileSync(path.join(process.cwd(), "pages", "404.html"));
+            res.end(webpage);
+        }
+    } catch (error) {
+        console.error("Error reading file:", error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal Server Error');
+    }
+});
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`); 
+    console.log(`Server running at http://localhost:${PORT}`);
 });
