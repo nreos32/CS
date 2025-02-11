@@ -65,8 +65,6 @@ const App = () => {
     }
   };
 
-  // fetch functions -> save multiple [TODO]
-  // fetch functions -> fetch multiple [TODO]
 const fetchMultiple = async () => {
   try {
     const response = await fetch('http://localhost:8000/fetch/multiple');
@@ -86,8 +84,15 @@ const fetchMultiple = async () => {
   }
 };
 
-  // fetch functions -> fetch dog image [TODO]
-  // fetch functions -> save dog image [TODO]
+  const fetchDogImage = async () => {
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/image/random');
+      const data = await response.json();
+      setDisplayDogImage(data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -112,13 +117,29 @@ const fetchMultiple = async () => {
 
       <button onClick={fetchMultiple}>Fetch Multiple Files</button>
       {displayImages.length > 0 ? (
-        displayImages.map((image, index) => (
-          <div key = {index}>
-            <img src={image}/>
+        displayImages.map((imageUrl, index) => (
+          <div key={index}>
+            <img 
+              src={imageUrl} 
+              alt={`Image ${index + 1}`}
+              style={{ width: "200px", marginTop: "10px" }}
+            />
           </div>
         ))
       ) : (
         <p>No images to display</p>
+      )}
+
+      <button onClick={fetchDogImage}>Fetch Dog Image</button>
+      {displayDogImage && (
+        <div>
+          <h3>Dog Image</h3>
+          <img
+            src={displayDogImage}
+            alt="Display Dog Image"
+            style={{ width: "200px", marginTop: "10px" }}
+          />
+        </div>
       )}
     </div>
   );
