@@ -32,7 +32,7 @@ const App = () => {
       // using createObjectURL
       const imageUrl = URL.createObjectURL(blob);
       setDisplayImage(imageUrl);
-    } catch (error) {
+    } catch (error) { 
       console.error("Error fetching single file:", error);
     }
   };
@@ -65,37 +65,34 @@ const App = () => {
     }
   };
 
-const fetchMultiple = async () => {
-  try {
-    const response = await fetch('http://localhost:8000/fetch/multiple');
-    const data = await response.json();
-    
-    const filePromises = data.map(async (filename) => {
-      const fetchFilenameData = await fetch(`http://localhost:8000/fetch/file/${filename}`);
-      const fileBlob = await fetchFilenameData.blob();
-      return URL.createObjectURL(fileBlob);
-    });
+  const fetchMultiple = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/fetch/multiple');
+      const data = await response.json();
+      
+      const filePromises = data.map(async (filename) => {
+        const fetchFilenameData = await fetch(`http://localhost:8000/fetch/file/${filename}`);
+        const fileBlob = await fetchFilenameData.blob();
+        return URL.createObjectURL(fileBlob);
+      });
 
-    const imageUrls = await Promise.all(filePromises);
-    setDisplayImages(imageUrls);
+      const imageUrls = await Promise.all(filePromises);
+      setDisplayImages(imageUrls);
 
     } catch (error) {
-    console.log(error)
-  }
-};
-
-  // fetch functions -> fetch dog image [TODO]
+      console.log(error)
+    }
+  };
 
   const fetchDogImage = async() => {
     try {
       const response = await fetch('https://dog.ceo/api/breeds/image/random');
       const data = await response.json();
       setDisplayDogImage(data.message);
-
     } catch (error) {
       console.log(error);
     }
-  // fetch functions -> save dog image [TODO]
+  };
 
   return (
     <div>
@@ -121,8 +118,8 @@ const fetchMultiple = async () => {
       <button onClick={fetchMultiple}>Fetch Multiple Files</button>
       {displayImages.length > 0 ? (
         displayImages.map((image, index) => (
-          <div key = {index}>
-            <img src={image}/>
+          <div key={index}>
+            <img src={image} alt={`Image ${index + 1}`}/>
           </div>
         ))
       ) : (
@@ -130,7 +127,7 @@ const fetchMultiple = async () => {
       )}
 
       <button onClick={fetchDogImage}>Fetch Dog Image</button>
-      {displayDogImage && {
+      {displayDogImage && (
         <div>
           <h3>Dog Image</h3>
           <img
@@ -139,7 +136,7 @@ const fetchMultiple = async () => {
             style={{ width: "200px", marginTop: "10px" }}
           />
         </div>
-      }}
+      )}
     </div>
   );
 };
