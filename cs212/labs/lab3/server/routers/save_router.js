@@ -17,14 +17,20 @@ router.post("/single", upload.single("file"), (req, res) => {
 });
 
 router.post("/multiple", upload.array("files", 10), (req, res) => {
-  console.log("Uploaded Files:", req.file);
+  console.log("Uploaded Files:", req.files);
 
-  if (!req.file) {
+  if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: "No files uploaded" });
   }
 
+  const uploadedFiles = req.files.map(file => ({
+    filename: file.filename,
+    path: `/uploads/${file.filename}`
+  }));
+
   res.json({
-    message: "Image uploaded successfully",
+    message: "Images uploaded successfully",
+    files: uploadedFiles
   });
 });
 

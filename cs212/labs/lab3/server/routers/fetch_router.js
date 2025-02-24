@@ -8,7 +8,8 @@ const router = express.Router();
 
 // grab the current directory to this file
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename); // this will link us to the router folder
+// we need to move from /server/routers to /server/uploads
 const upload_directory = path.join(__dirname, "../uploads");
 
 router.get("/multiple", (req, res) => {
@@ -18,8 +19,8 @@ router.get("/multiple", (req, res) => {
       message: "No images",
     });
   }
-  
-  return res.json(files_array); 
+
+  return res.json(files_array);
 });
 
 router.get("/single", (req, res) => {
@@ -30,14 +31,13 @@ router.get("/single", (req, res) => {
     });
   }
 
-  let filename = _.sample(files_array);  // Get one random file using _.sample instead of _.sampleSize
-  return res.sendFile(path.join(upload_directory, filename));
+  let filename = _.sample(files_array);
+  res.sendFile(path.join(upload_directory, filename));
 });
 
 // helper function for multiple 
 router.get("/file/:filename", (req, res) => {
   return res.sendFile(path.join(__dirname, "../uploads", req.params.filename));
 });
-
 
 export default router;

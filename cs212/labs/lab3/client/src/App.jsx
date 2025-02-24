@@ -13,11 +13,17 @@ const App = () => {
   
   const [message, setMessage] = useState("");
 
-
-  // Handlers
+  // Handle single file change
   const handleSingleFileChange = (e) => {
     if (e.target.files.length > 0) {
       setSingleFile(e.target.files[0]);
+    }
+  };
+
+  // Handle multiple file change
+  const handleMultipleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      setMultipleFiles((prevFiles) => [...prevFiles, ...e.target.files]);
     }
   };
 
@@ -32,7 +38,7 @@ const App = () => {
       // using createObjectURL
       const imageUrl = URL.createObjectURL(blob);
       setDisplayImage(imageUrl);
-    } catch (error) { 
+    } catch (error) {
       console.error("Error fetching single file:", error);
     }
   };
@@ -60,6 +66,36 @@ const App = () => {
         throw new Error(data.error || "Image upload failed");
       }
       setMessage("File uploaded successfully!");
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  // fetch functions -> save multiple
+  const handleSubmitMultipleFiles = async (e) => {
+    e.preventDefault();
+    if (multipleFiles.length === 0) {
+      setMessage("Please select files before uploading.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      Array.from(multipleFiles).forEach((file) => {
+        formData.append("files", file);
+      });
+
+      const response = await fetch(`http://localhost:8000/save/multiple`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Image upload failed");
+      }
+      setMessage("Files uploaded successfully!");
     } catch (error) {
       console.log("Error:", error);
     }
@@ -135,7 +171,7 @@ const App = () => {
           <img
             src={displayImage}
             alt="Display Image"
-            style={{ width: "200px", marginTop: "10px" }}
+            style={{ width: "100px", marginTop: "5px" }}
           />
         </div>
       )}
@@ -145,17 +181,28 @@ const App = () => {
         <button type="submit">Upload Single File</button>
       </form>
 
+      <h2>Fetch Multiple Files</h2>
       <button onClick={fetchMultiple}>Fetch Multiple Files</button>
       {displayImages.length > 0 ? (
         displayImages.map((image, index) => (
           <div key={index}>
-            <img src={image} alt={`Image ${index + 1}`}/>
+            <img 
+              src={image} 
+              alt={`Image ${index + 1}`}
+              style={{ width: "100px", marginTop: "5px" }}
+            />
           </div>
         ))
       ) : (
         <p>No images to display</p>
       )}
+      <form onSubmit={handleSubmitMultipleFiles}>
+        <h2>Upload Multiple Files</h2>
+        <input type="file" multiple onChange={handleMultipleFileChange} />
+        <button type="submit">Upload Multiple Files</button>
+      </form>
 
+      <h2>Fetch Dog Images</h2>
       <button onClick={fetchDogImage}>Fetch Dog Image</button>
       {displayDogImage && (
         <div>
