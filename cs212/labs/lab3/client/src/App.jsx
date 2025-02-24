@@ -94,6 +94,36 @@ const App = () => {
     }
   };
 
+  const saveDogImage = async () => {
+    if (!displayDogImage) {
+      setMessage("Please fetch a dog image first");
+      return;
+    }
+
+    try {
+      const response = await fetch(displayDogImage);
+      const blob = await response.blob();
+      
+      const formData = new FormData();
+      formData.append("file", blob, "dog-image.jpg");
+      
+      const uploadResponse = await fetch(`http://localhost:8000/save/single`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await uploadResponse.json();
+
+      if (!uploadResponse.ok) {
+        throw new Error(data.error || "Image upload failed");
+      }
+      setMessage("Dog image saved successfully!");
+    } catch (error) {
+      console.error("Error saving dog image:", error);
+      setMessage("Failed to save dog image");
+    }
+  };
+
   return (
     <div>
       <p>{message}</p>
@@ -135,6 +165,7 @@ const App = () => {
             alt="Display Dog Image"
             style={{ width: "200px", marginTop: "10px" }}
           />
+          <button onClick={saveDogImage}>Save Dog Image</button>
         </div>
       )}
     </div>
