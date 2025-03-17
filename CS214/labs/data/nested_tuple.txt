@@ -1,0 +1,7 @@
+(1, 2, (3, 4, (5, 6, 7)))
+Type: <class 'tuple'>
+First element: 1
+Second element: 2
+Third element (a tuple): (3, 4, (5, 6, 7))
+Fourth element (accessing nested tuple): 3
+Fifth element (accessing deeply nested tuple): 5

@@ -1,0 +1,8 @@
+User specified range: 4 to 10
+Even numbers tuple: (4, 6, 8, 10)
+
+Individual even numbers:
+Element 0: 4
+Element 1: 6
+Element 2: 8
+Element 3: 10
