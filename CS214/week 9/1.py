@@ -168,7 +168,9 @@ def main():
             if (search_term in customer.name.lower() or 
                 search_term in customer.telephone.lower()):
                 found_matches.append(customer)
-                    
+        
+        if found_matches:
+            print_header("Matching Customers")
             for i, match in enumerate(found_matches, 1):
                 print(f"{i}. Name: {match.name}")
                 print(f"   Customer Number: {match.customer_number}")
@@ -185,6 +187,20 @@ def main():
             if input("> ").lower().startswith('y'):
                 print_header("New Customer Registration")
                 print("Please enter your information:")
+                print("\nEnter your name: ")
+                name = input("> ")
+                print("Enter your address (leave blank to skip): ")
+                address = input("> ")
+                print("Enter your telephone number: ")
+                telephone = input("> ")
+
+                new_customer_number = making_new_customer_number()
+                new_customer = Customer(name, address, telephone, new_customer_number, False)
+                customers.append(new_customer)
+                
+                print_header("Registration Complete")
+                print(f"Welcome, {new_customer.name}!")
+                print(f"Your Customer Number is: {new_customer.customer_number}")
             else:
                 print("Please try searching again with different information.")
         
