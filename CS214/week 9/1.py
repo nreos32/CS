@@ -4,7 +4,6 @@ import os
 customer_numbers = ["0001"]
 customers = []
 
-# Helper functions for better UI
 def clear_screen():
     """Clear the terminal screen"""
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -77,7 +76,6 @@ def load_data():
     except Exception as e:
         print(f"Error loading data: {e}")
         
-    # Create default data if nothing was loaded
     if not customer_numbers:
         customer_numbers = ["0001"]
     if not customers:

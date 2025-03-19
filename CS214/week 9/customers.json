@@ -1,6 +1,6 @@
 [
     {
-        "name": "Nicholas Maroudas",
+        "name": "Nicholas",
         "address": "55779",
         "telephone": "647-537-3854",
         "customer_number": "0001",
@@ -15,9 +15,16 @@
     },
     {
         "name": "test2",
-        "address": "4479 Gullfoot cir",
+        "address": "12313132213",
         "telephone": "6475371331",
         "customer_number": "0003",
         "on_mailing_list": false
+    },
+    {
+        "name": "First Name",
+        "address": "ojdsojisdajoisda",
+        "telephone": "19283841",
+        "customer_number": "0004",
+        "on_mailing_list": true
     }
 ]
